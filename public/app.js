@@ -24,8 +24,15 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 const palette = ['#0f9f8f', '#f05f4d', '#d99b18', '#5f5ad8'];
 const nodes = [];
-const nodeCount = 52;
 let animationFrameId;
+
+function getNodeCount() {
+  if (window.innerWidth <= 300) return 0;
+  if (prefersReducedMotion) return 24;
+  if (window.innerWidth >= 1600) return 68;
+  if (window.innerWidth >= 900) return 52;
+  return 34;
+}
 
 function resizeCanvas() {
   if (!canvas || !context) return;
@@ -40,6 +47,8 @@ function resizeCanvas() {
 
 function resetNodes() {
   nodes.length = 0;
+
+  const nodeCount = getNodeCount();
 
   for (let index = 0; index < nodeCount; index += 1) {
     nodes.push({
@@ -57,6 +66,8 @@ function drawFrame(time = 0) {
   if (!canvas || !context) return;
 
   context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+  if (nodes.length === 0) return;
 
   nodes.forEach((node, index) => {
     const drift = prefersReducedMotion ? 0 : Math.sin(time * 0.001 + node.phase) * 12;

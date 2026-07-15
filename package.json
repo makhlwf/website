@@ -4,7 +4,8 @@
   "description": "my own website as an open source code",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "node --check index.js"
   },
   "keywords": [],
   "author": "",

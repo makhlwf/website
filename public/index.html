@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello World Starter</title>
+    <meta name="description" content="A polished Hello World starter page served with Express.">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-mark">mw</span>
+        <span>website</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#starter">Starter</a>
+        <a href="#stack">Stack</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="pageTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">First page online</p>
+          <h1 id="pageTitle">Hello, World.</h1>
+          <p class="lede">
+            A sharp little launchpad for turning this repo into a real personal site.
+          </p>
+          <div class="actions">
+            <button class="button button-primary" id="remixGreeting" type="button">
+              Remix greeting
+            </button>
+            <a class="button button-secondary" href="#starter">Open starter kit</a>
+          </div>
+        </div>
+
+        <aside class="terminal" aria-label="Hello World preview">
+          <div class="terminal-topbar" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <pre><code><span class="muted">$ node index.js</span>
+<span>Server running at http://localhost:3000</span>
+<span class="muted">&gt; render()</span>
+<span class="accent" id="consoleGreeting">Hello, World.</span><span class="cursor">_</span></code></pre>
+          <div class="terminal-status">
+            <span>Express</span>
+            <span>Responsive</span>
+            <span>Ready</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="starter" id="starter" aria-labelledby="starterTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Starter kit</p>
+          <h2 id="starterTitle">Simple enough to edit. Solid enough to keep.</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <span class="feature-number">01</span>
+            <h3>Express server</h3>
+            <p>The app serves static files from <code>public/</code> and exposes a small health check.</p>
+          </article>
+          <article class="feature">
+            <span class="feature-number">02</span>
+            <h3>Polished front end</h3>
+            <p>The page includes responsive layout, focused content, and a lightweight animated canvas.</p>
+          </article>
+          <article class="feature" id="stack">
+            <span class="feature-number">03</span>
+            <h3>Easy next steps</h3>
+            <p>Edit the HTML, CSS, and JavaScript files directly as your site grows.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Built with Node.js and Express.</span>
+    </footer>
+  </body>
+</html>

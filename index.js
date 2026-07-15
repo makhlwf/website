@@ -1,10 +1,14 @@
+const path = require('path');
 const express = require('express');
-const app = express();
-const port = 3000;
 
-// This serves your hello page at the root URL
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World! Welcome to my JavaScript project.</h1>');
+const app = express();
+const port = process.env.PORT || 3000;
+const publicDir = path.join(__dirname, 'public');
+
+app.use(express.static(publicDir));
+
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
 
 app.listen(port, () => {

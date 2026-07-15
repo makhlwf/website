@@ -5,6 +5,9 @@ DOMAIN="${APP_DOMAIN:-makhlwf.duckdns.org}"
 APP_PORT="${APP_PORT:-3000}"
 SITE_NAME="${APP_SITE_NAME:-my-website}"
 CERTBOT_WEBROOT="${CERTBOT_WEBROOT:-/var/www/certbot}"
+APP_ROOT="${APP_ROOT:-/var/www/my-website}"
+NGINX_CONF_PATH="${NGINX_CONF_PATH:-/etc/nginx/conf.d/000-${SITE_NAME}.conf}"
+STATUS_FILE="${STATUS_FILE:-${APP_ROOT}/public/deploy-status.json}"
 
 if [ "$(id -u)" -eq 0 ]; then
   SUDO=()
@@ -21,6 +24,23 @@ reload_nginx() {
     run systemctl reload nginx || run service nginx reload
   else
     run service nginx reload
+  fi
+}
+
+write_status() {
+  local status="$1"
+  local detail="$2"
+
+  if [ -d "$(dirname "$STATUS_FILE")" ]; then
+    cat > "$STATUS_FILE" <<JSON
+{
+  "status": "${status}",
+  "detail": "${detail}",
+  "domain": "${DOMAIN}",
+  "nginxConfig": "${NGINX_CONF_PATH}",
+  "updatedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+}
+JSON
   fi
 }
 
@@ -52,7 +72,7 @@ server {
 }
 NGINX
 
-  run cp "$temp_config" "/etc/nginx/sites-available/${SITE_NAME}"
+  run cp "$temp_config" "$NGINX_CONF_PATH"
   rm -f "$temp_config"
 }
 
@@ -76,8 +96,8 @@ server {
 }
 
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen 80;
+    listen [::]:80;
     server_name 102.203.200.132 _;
 
     location /.well-known/acme-challenge/ {
@@ -121,7 +141,7 @@ server {
 }
 NGINX
 
-  run cp "$temp_config" "/etc/nginx/sites-available/${SITE_NAME}"
+  run cp "$temp_config" "$NGINX_CONF_PATH"
   rm -f "$temp_config"
 }
 
@@ -132,27 +152,32 @@ if command -v apt-get >/dev/null 2>&1; then
   run apt-get install -y nginx certbot
 fi
 
-run mkdir -p "$CERTBOT_WEBROOT" /etc/nginx/sites-available /etc/nginx/sites-enabled
+run mkdir -p "$CERTBOT_WEBROOT" /etc/nginx/conf.d /etc/nginx/sites-enabled
 write_http_config
-run ln -sfn "/etc/nginx/sites-available/${SITE_NAME}" "/etc/nginx/sites-enabled/${SITE_NAME}"
 run rm -f /etc/nginx/sites-enabled/default
+run rm -f "/etc/nginx/sites-enabled/${SITE_NAME}"
 run nginx -t
 reload_nginx
+write_status "http-ready" "Nginx HTTP config loaded; requesting certificate."
 
 if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
-  run certbot certonly \
+  if ! run certbot certonly \
     --webroot \
     -w "$CERTBOT_WEBROOT" \
     -d "$DOMAIN" \
     --non-interactive \
     --agree-tos \
     --register-unsafely-without-email \
-    --keep-until-expiring
+    --keep-until-expiring; then
+    write_status "certbot-failed" "Certbot could not issue a certificate."
+    exit 1
+  fi
 else
   run certbot renew --quiet || true
 fi
 
 if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
+  write_status "certificate-missing" "Certificate file does not exist after certbot."
   echo "Certificate was not created for ${DOMAIN}." >&2
   exit 1
 fi
@@ -160,5 +185,6 @@ fi
 write_https_config
 run nginx -t
 reload_nginx
+write_status "https-ready" "Nginx HTTPS config loaded and reloaded."
 
 echo "Nginx is configured for http://${DOMAIN} and https://${DOMAIN}."

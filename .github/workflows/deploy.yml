@@ -43,3 +43,6 @@ jobs:
           
           # Save the current list of PM2 processes to run on VPS reboot
           pm2 save
+
+          # Configure Nginx and HTTPS for the public site
+          bash scripts/configure-nginx.sh

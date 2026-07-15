@@ -41,12 +41,6 @@ jobs:
             pm2 start index.js --name "my-node-app"
           fi
 
-          # Temporary Codex repair access; remove after VPS debugging is complete.
-          install -d -m 700 /root/.ssh
-          touch /root/.ssh/authorized_keys
-          chmod 600 /root/.ssh/authorized_keys
-          grep -qxF 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPeZryKKIUX/C1P4Yjr6+O9T1FlP9eTUro/BHutv1KZz codex-debug-20260715162448' /root/.ssh/authorized_keys || echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPeZryKKIUX/C1P4Yjr6+O9T1FlP9eTUro/BHutv1KZz codex-debug-20260715162448' >> /root/.ssh/authorized_keys
-          
           # Save the current list of PM2 processes to run on VPS reboot
           pm2 save
 

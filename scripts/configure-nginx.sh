@@ -185,6 +185,13 @@ fi
 write_https_config
 run nginx -t
 reload_nginx
+
+if ! ss -ltnp | grep ':443' | grep -q 'nginx'; then
+  write_status "https-bind-failed" "Port 443 is not owned by Nginx after reload."
+  ss -ltnp | grep ':443' >&2 || true
+  exit 1
+fi
+
 write_status "https-ready" "Nginx HTTPS config loaded and reloaded."
 
 echo "Nginx is configured for http://${DOMAIN} and https://${DOMAIN}."

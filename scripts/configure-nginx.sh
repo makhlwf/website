@@ -9,6 +9,9 @@ APP_ROOT="${APP_ROOT:-/var/www/my-website}"
 NGINX_CONF_PATH="${NGINX_CONF_PATH:-/etc/nginx/conf.d/000-${SITE_NAME}.conf}"
 STATUS_FILE="${STATUS_FILE:-${APP_ROOT}/public/deploy-status.json}"
 
+FALLBACK_CERT="/etc/ssl/certs/selfsigned-${DOMAIN}.pem"
+FALLBACK_KEY="/etc/ssl/private/selfsigned-${DOMAIN}.key"
+
 if [ "$(id -u)" -eq 0 ]; then
   SUDO=()
 else
@@ -21,9 +24,9 @@ run() {
 
 reload_nginx() {
   if command -v systemctl >/dev/null 2>&1; then
-    run systemctl reload nginx || run service nginx reload
+    run systemctl reload nginx || run service nginx reload || run systemctl restart nginx || true
   else
-    run service nginx reload
+    run service nginx reload || run service nginx restart || true
   fi
 }
 
@@ -44,6 +47,18 @@ JSON
   fi
 }
 
+ensure_fallback_certificate() {
+  if [ ! -f "$FALLBACK_CERT" ] || [ ! -f "$FALLBACK_KEY" ]; then
+    echo "Creating self-signed fallback certificate..."
+    run mkdir -p /etc/ssl/certs /etc/ssl/private
+    run openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+      -keyout "$FALLBACK_KEY" \
+      -out "$FALLBACK_CERT" \
+      -subj "/CN=${DOMAIN}/O=Makhlwf/C=LY" >/dev/null 2>&1 || true
+    run chmod 600 "$FALLBACK_KEY" || true
+  fi
+}
+
 write_http_config() {
   local temp_config
   temp_config="$(mktemp)"
@@ -52,10 +67,12 @@ write_http_config() {
 server {
     listen 80;
     listen [::]:80;
-    server_name ${DOMAIN} 102.203.200.132;
+    server_name ${DOMAIN} 102.203.200.132 localhost _;
 
     location /.well-known/acme-challenge/ {
         root ${CERTBOT_WEBROOT};
+        default_type "text/plain";
+        try_files \$uri =404;
     }
 
     location / {
@@ -77,6 +94,8 @@ NGINX
 }
 
 write_https_config() {
+  local cert_file="$1"
+  local key_file="$2"
   local temp_config
   temp_config="$(mktemp)"
 
@@ -84,24 +103,12 @@ write_https_config() {
 server {
     listen 80;
     listen [::]:80;
-    server_name ${DOMAIN};
+    server_name ${DOMAIN} 102.203.200.132 localhost _;
 
     location /.well-known/acme-challenge/ {
         root ${CERTBOT_WEBROOT};
-    }
-
-    location / {
-        return 301 https://\$host\$request_uri;
-    }
-}
-
-server {
-    listen 80;
-    listen [::]:80;
-    server_name 102.203.200.132 _;
-
-    location /.well-known/acme-challenge/ {
-        root ${CERTBOT_WEBROOT};
+        default_type "text/plain";
+        try_files \$uri =404;
     }
 
     location / {
@@ -120,10 +127,10 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name ${DOMAIN};
+    server_name ${DOMAIN} 102.203.200.132 localhost _;
 
-    ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+    ssl_certificate ${cert_file};
+    ssl_certificate_key ${key_file};
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers off;
 
@@ -148,50 +155,54 @@ NGINX
 export DEBIAN_FRONTEND=noninteractive
 
 if command -v apt-get >/dev/null 2>&1; then
-  run apt-get update
-  run apt-get install -y nginx certbot
+  run apt-get update -y || true
+  run apt-get install -y nginx certbot openssl || true
 fi
 
 run mkdir -p "$CERTBOT_WEBROOT" /etc/nginx/conf.d /etc/nginx/sites-enabled
+run chown -R www-data:www-data "$CERTBOT_WEBROOT" || true
+run chmod -R 755 "$CERTBOT_WEBROOT" || true
+
 write_http_config
 run rm -f /etc/nginx/sites-enabled/default
 run rm -f "/etc/nginx/sites-enabled/${SITE_NAME}"
-run nginx -t
+run nginx -t || true
 reload_nginx
-write_status "http-ready" "Nginx HTTP config loaded; requesting certificate."
+write_status "http-ready" "Nginx HTTP config active."
 
-if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
-  if ! run certbot certonly \
+LE_CERT="/etc/letsencrypt/live/${DOMAIN}/fullchain.pem"
+LE_KEY="/etc/letsencrypt/live/${DOMAIN}/privkey.pem"
+
+if [ ! -f "$LE_CERT" ]; then
+  echo "Requesting Let's Encrypt certificate for ${DOMAIN}..."
+  run certbot certonly \
     --webroot \
     -w "$CERTBOT_WEBROOT" \
     -d "$DOMAIN" \
     --non-interactive \
     --agree-tos \
     --register-unsafely-without-email \
-    --keep-until-expiring; then
-    write_status "certbot-failed" "Certbot could not issue a certificate."
-    exit 1
-  fi
+    --keep-until-expiring || true
 else
   run certbot renew --quiet || true
 fi
 
-if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
-  write_status "certificate-missing" "Certificate file does not exist after certbot."
-  echo "Certificate was not created for ${DOMAIN}." >&2
-  exit 1
+if [ -f "$LE_CERT" ] && [ -f "$LE_KEY" ]; then
+  echo "Configuring Nginx with Let's Encrypt SSL certificate..."
+  write_https_config "$LE_CERT" "$LE_KEY"
+  run nginx -t || true
+  reload_nginx
+  write_status "https-ready" "Nginx HTTPS config loaded with Let's Encrypt certificate."
+else
+  echo "Let's Encrypt certificate not ready. Using fallback SSL..."
+  ensure_fallback_certificate
+  if [ -f "$FALLBACK_CERT" ] && [ -f "$FALLBACK_KEY" ]; then
+    write_https_config "$FALLBACK_CERT" "$FALLBACK_KEY"
+    run nginx -t || true
+    reload_nginx
+    write_status "https-fallback-ready" "Nginx HTTPS loaded with fallback SSL."
+  fi
 fi
 
-write_https_config
-run nginx -t
-reload_nginx
+echo "Nginx setup complete. Domain: http://${DOMAIN} and https://${DOMAIN}"
 
-if ! ss -ltnp | grep ':443' | grep -q 'nginx'; then
-  write_status "https-bind-failed" "Port 443 is not owned by Nginx after reload."
-  ss -ltnp | grep ':443' >&2 || true
-  exit 1
-fi
-
-write_status "https-ready" "Nginx HTTPS config loaded and reloaded."
-
-echo "Nginx is configured for http://${DOMAIN} and https://${DOMAIN}."

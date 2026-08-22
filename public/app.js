@@ -1,63 +1,42 @@
 /**
  * Makhlwf - Portfolio & Landing Page
- * Interactive terminal, Arabic TTS voice demo, copy utilities, and animated canvas background.
+ * Interactive terminal, Arabic audio test demo, and animated background canvas.
  */
 
 // ==========================================================================
 // 1. Interactive Terminal Commands
 // ==========================================================================
 const terminalScreen = document.querySelector('#terminalScreen');
-const consoleDynamicOutput = document.querySelector('#consoleDynamicOutput');
 const termButtons = document.querySelectorAll('.term-btn');
 
 const terminalCommands = {
   about: {
     cmd: 'makhlwf --about',
     output: `
-<span class="accent">[Profile]</span> Makhlwf — Software Developer & IT Engineer from Libya 🇱🇾
-<span class="muted">Summary:</span> Strong foundation in IT, Computer Science, and AI.
-<span class="muted">Mission:</span> Helping organizations streamline operations with custom AI workflows, 
-         while engineering universally accessible software and Arabic voice technology.
-<span class="muted">Current:</span> Building apps with Kotlin & Flutter, researching Arabic TTS.`
-  },
-  skills: {
-    cmd: 'makhlwf --skills',
-    output: `
-<span class="accent">[Technical Stack]</span>
-• <span class="term-command">Languages:</span> Python (Advanced), Kotlin, Dart/Flutter, JavaScript, Node.js, Shell
-• <span class="term-command">AI & ML:</span> AI Workflow Integration, LLM Orchestration, Arabic TTS Voice Synthesis
-• <span class="term-command">Domains:</span> WCAG Accessibility (a11y), Arabic Localization (l10n & RTL), IT Infrastructure
-• <span class="term-command">Tooling:</span> Git/GitHub, Linux/Windows, REST APIs, PyQt, FFmpeg`
+<span class="accent">[About]</span> Makhlwf — Developer from Libya 🇱🇾
+<span class="muted">Summary:</span> Knowledge in IT, Computer Science, AI, and Python.
+<span class="muted">Focus:</span> Helping companies integrate AI into their workflows to maximize efficiency.
+<span class="muted">Open Source:</span> Improving accessibility (a11y) & adding Arabic localization (l10n).`
   },
   projects: {
     cmd: 'makhlwf --projects',
     output: `
-<span class="accent">[Featured Projects]</span>
-1. <span class="term-command">exPlayer (Accessible YouTube Downloader Pro)</span>
+<span class="accent">[Projects]</span>
+1. <span class="term-command">exPlayer (accessible_youtube_downloader_pro)</span>
    GitHub: <a href="https://github.com/makhlwf/accessible_youtube_downloader_pro" target="_blank" style="color:#5eead4;text-decoration:underline;">github.com/makhlwf/accessible_youtube_downloader_pro</a>
-   Built for full assistive-tech & screen reader accessibility.
-2. <span class="term-command">Arabic Text-To-Speech (TTS) Engine</span> [Research]
-   Neural voice synthesis with Arabic diacritization support.
-3. <span class="term-command">Cross-Platform Apps</span> (Flutter & Kotlin)
-4. <span class="term-command">Open Source a11y & Arabic l10n</span> Contributions`
+   Accessible YouTube browser & downloader designed for screen-reader (NVDA) users.
+2. <span class="term-command">Arabic Text-To-Speech (TTS)</span>
+   Exploring natural Arabic speech synthesis.
+3. <span class="term-command">Kotlin & Flutter App Experiments</span>
+4. <span class="term-command">Open Source a11y & Arabic localization</span>`
   },
-  ai: {
-    cmd: 'makhlwf --ai-help',
+  learning: {
+    cmd: 'makhlwf --learning',
     output: `
-<span class="accent">[AI Integration & Consulting]</span>
-How I help businesses:
-• Audit existing manual workflows and identify automation opportunities.
-• Integrate LLMs & custom AI pipelines into existing internal software.
-• Maximize operational efficiency and output quality.
-• Ensure data accuracy and clean user interfaces for team adoption.`
-  },
-  arabic: {
-    cmd: 'makhlwf --arabic-tts',
-    output: `
-<span class="accent">[Arabic Voice Tech & Localization]</span>
-• Passionate about building high-fidelity Arabic speech synthesis (TTS).
-• Helping Arabic assistive technology users experience natural digital voices.
-• Contributing Right-to-Left (RTL) fixes & translations to open source.`
+<span class="accent">[Currently Learning & Exploring]</span>
+• <span class="term-command">Kotlin & Flutter:</span> Building clean, cross-platform mobile apps.
+• <span class="term-command">Arabic Speech Synthesis:</span> Working on better Arabic Text-To-Speech models.
+• <span class="term-command">Assistive Tech:</span> Making digital tools accessible for screen reader users.`
   }
 };
 
@@ -67,7 +46,7 @@ function runTerminalCommand(cmdKey) {
   if (cmdKey === 'clear') {
     terminalScreen.innerHTML = `
 <pre><code><span class="muted">// Screen cleared. Click a quick command below:</span>
-<span class="muted">$</span> <span class="accent" id="consoleDynamicOutput">Ready for next command...</span><span class="cursor" aria-hidden="true">_</span></code></pre>`;
+<span class="muted">$</span> <span class="accent" id="consoleDynamicOutput">Ready...</span><span class="cursor" aria-hidden="true">_</span></code></pre>`;
     return;
   }
 
@@ -75,7 +54,7 @@ function runTerminalCommand(cmdKey) {
   if (!item) return;
 
   const commandBlock = document.createElement('div');
-  commandBlock.style.marginTop = '12px';
+  commandBlock.style.marginTop = '10px';
   commandBlock.innerHTML = `
 <pre><code><span class="muted">$</span> <span class="term-command">${item.cmd}</span>
 ${item.output}
@@ -106,7 +85,7 @@ if (phraseSelect && phraseDisplay) {
   phraseSelect.addEventListener('change', () => {
     phraseDisplay.textContent = phraseSelect.value;
     if (ttsStatusMessage) {
-      ttsStatusMessage.textContent = 'Selected phrase updated. Click Speak to preview.';
+      ttsStatusMessage.textContent = 'Selected phrase updated. Click Speak to test.';
     }
   });
 }
@@ -115,16 +94,15 @@ if ('speechSynthesis' in window) {
   let currentUtterance = null;
 
   btnSpeakArabic?.addEventListener('click', () => {
-    window.speechSynthesis.cancel(); // Stop any ongoing speech
+    window.speechSynthesis.cancel();
 
     const textToSpeak = phraseDisplay ? phraseDisplay.textContent.trim() : phraseSelect?.value;
     if (!textToSpeak) return;
 
     currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
     currentUtterance.lang = 'ar-SA';
-    currentUtterance.rate = 0.95; // Natural pace
+    currentUtterance.rate = 0.95;
 
-    // Try to locate native Arabic voice
     const voices = window.speechSynthesis.getVoices();
     const arabicVoice = voices.find((v) => v.lang.startsWith('ar') || v.lang.includes('AR'));
     if (arabicVoice) {
@@ -133,21 +111,21 @@ if ('speechSynthesis' in window) {
 
     currentUtterance.onstart = () => {
       if (ttsStatusMessage) {
-        ttsStatusMessage.textContent = '🔊 Speaking Arabic audio preview...';
+        ttsStatusMessage.textContent = '🔊 Playing Arabic audio preview...';
         ttsStatusMessage.style.color = '#0f9f8f';
       }
     };
 
     currentUtterance.onend = () => {
       if (ttsStatusMessage) {
-        ttsStatusMessage.textContent = '✓ Finished speaking.';
+        ttsStatusMessage.textContent = '✓ Finished playing.';
         ttsStatusMessage.style.color = 'inherit';
       }
     };
 
-    currentUtterance.onerror = (e) => {
+    currentUtterance.onerror = () => {
       if (ttsStatusMessage) {
-        ttsStatusMessage.textContent = 'Audio synthesis completed.';
+        ttsStatusMessage.textContent = 'Audio test finished.';
         ttsStatusMessage.style.color = 'inherit';
       }
     };
@@ -158,15 +136,10 @@ if ('speechSynthesis' in window) {
   btnStopArabic?.addEventListener('click', () => {
     window.speechSynthesis.cancel();
     if (ttsStatusMessage) {
-      ttsStatusMessage.textContent = 'Speech playback stopped.';
+      ttsStatusMessage.textContent = 'Playback stopped.';
       ttsStatusMessage.style.color = 'inherit';
     }
   });
-
-  // Pre-load voices
-  window.speechSynthesis.onvoiceschanged = () => {
-    // Voices cache primed
-  };
 } else {
   if (ttsStatusMessage) {
     ttsStatusMessage.textContent = 'Web Speech API is not supported in this browser.';
@@ -175,50 +148,7 @@ if ('speechSynthesis' in window) {
 
 
 // ==========================================================================
-// 3. Copy Contact Details Helper
-// ==========================================================================
-const btnCopyEmail = document.querySelector('#btnCopyEmail');
-const copyEmailText = document.querySelector('#copyEmailText');
-
-btnCopyEmail?.addEventListener('click', async () => {
-  const contactInfo = `Makhlwf - Software Developer & AI Integrator\nGitHub: https://github.com/makhlwf\nWebsite: https://makhlwf.duckdns.org`;
-
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(contactInfo);
-    } else {
-      const textarea = document.createElement('textarea');
-      textarea.value = contactInfo;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-    }
-
-    if (copyEmailText) {
-      const originalText = copyEmailText.textContent;
-      copyEmailText.textContent = '✓ Details Copied!';
-      btnCopyEmail.style.background = '#0f9f8f';
-      btnCopyEmail.style.color = '#ffffff';
-
-      setTimeout(() => {
-        copyEmailText.textContent = originalText;
-        btnCopyEmail.style.background = '';
-        btnCopyEmail.style.color = '';
-      }, 2500);
-    }
-  } catch (err) {
-    if (copyEmailText) {
-      copyEmailText.textContent = 'Visit github.com/makhlwf';
-    }
-  }
-});
-
-
-// ==========================================================================
-// 4. Animated Background Signal Canvas
+// 3. Animated Background Signal Canvas
 // ==========================================================================
 const canvas = document.querySelector('#signalCanvas');
 const context = canvas?.getContext('2d');
@@ -231,9 +161,9 @@ let animationFrameId;
 function getNodeCount() {
   if (window.innerWidth <= 300) return 0;
   if (prefersReducedMotion) return 18;
-  if (window.innerWidth >= 1600) return 60;
-  if (window.innerWidth >= 900) return 44;
-  return 28;
+  if (window.innerWidth >= 1600) return 55;
+  if (window.innerWidth >= 900) return 40;
+  return 24;
 }
 
 function resizeCanvas() {
@@ -274,7 +204,7 @@ function drawFrame(time = 0) {
     const x = node.x + drift;
     const y = node.y;
 
-    context.globalAlpha = 0.18;
+    context.globalAlpha = 0.16;
     context.fillStyle = node.color;
     context.fillRect(x, y, node.size, node.size);
 
@@ -322,4 +252,5 @@ if (canvas && context) {
     drawFrame();
   });
 }
+
 

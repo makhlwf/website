@@ -3,87 +3,616 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Hello World Starter</title>
-    <meta name="description" content="A polished Hello World starter page served with Express.">
+    <title>Makhlwf | Software Developer, AI Integration & Accessibility</title>
+    <meta name="description" content="Portfolio and landing page of Makhlwf — Software Developer & AI Integration Specialist from Libya. Passionate about Python, Flutter, Kotlin, Arabic TTS, and Open Source Accessibility.">
+    <meta name="keywords" content="Makhlwf, AI Integration, Python Developer, Libya, Accessibility, a11y, Arabic TTS, Flutter, Kotlin, Open Source, exPlayer">
+    <meta name="author" content="Makhlwf">
+
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Makhlwf | Software Developer & AI Integration Specialist">
+    <meta property="og:description" content="Portfolio of Makhlwf — Helping companies integrate AI, crafting accessible software, and developing Arabic TTS solutions.">
+    <meta property="og:url" content="https://makhlwf.duckdns.org">
+
+    <!-- Preconnect for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
   </head>
   <body>
+    <!-- Skip to main content for keyboard accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Lightweight animated background canvas -->
     <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
 
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="Home">
-        <span class="brand-mark">mw</span>
-        <span>website</span>
+    <!-- Site Header & Navigation -->
+    <header class="site-header" role="banner">
+      <a class="brand" href="/" aria-label="Makhlwf Home">
+        <span class="brand-mark" aria-hidden="true">MW</span>
+        <div class="brand-text">
+          <span class="brand-name">makhlwf<span class="dot">.</span>dev</span>
+          <span class="brand-sub">Libya 🇱🇾</span>
+        </div>
       </a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="#starter">Starter</a>
-        <a href="#stack">Stack</a>
+
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#arabic-tech">Arabic Voice</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="nav-contact-btn">Get in Touch</a>
       </nav>
+
+      <div class="header-actions">
+        <a href="https://github.com/makhlwf" target="_blank" rel="noopener noreferrer" class="social-header-link" aria-label="Makhlwf GitHub Profile (opens in new tab)">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
     </header>
 
-    <main>
+    <main id="main-content">
+      <!-- Hero Section -->
       <section class="hero" aria-labelledby="pageTitle">
         <div class="hero-copy">
-          <p class="eyebrow">First page online</p>
-          <h1 id="pageTitle">Hello, World.</h1>
+          <div class="badge-row">
+            <span class="hero-badge">
+              <span class="status-indicator" aria-hidden="true"></span>
+              Available for AI Integration & Open Source
+            </span>
+            <span class="location-badge" aria-label="Based in Libya">🇱🇾 Libya</span>
+          </div>
+
+          <p class="eyebrow">Software Engineer & AI Integrator</p>
+          <h1 id="pageTitle">Hi, I'm <span class="name-highlight">Makhlwf</span>.</h1>
+          
           <p class="lede">
-            A sharp little launchpad for turning this repo into a real personal site.
+            I help businesses integrate <strong>AI workflows</strong> to maximize efficiency and quality. Passionate about <strong>Python</strong>, <strong>Accessibility (a11y)</strong>, <strong>Flutter/Kotlin</strong>, and developing cutting-edge <strong>Arabic Text-To-Speech (TTS)</strong> solutions.
           </p>
+
           <div class="actions">
-            <button class="button button-primary" id="remixGreeting" type="button">
-              Remix greeting
-            </button>
-            <a class="button button-secondary" href="#starter">Open starter kit</a>
+            <a class="button button-primary" href="#projects">
+              <span>Explore Projects</span>
+              <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+            <a class="button button-secondary" href="#services">AI Consulting</a>
+            <a class="button button-ghost" href="#contact">Contact Me</a>
+          </div>
+
+          <!-- Quick stats / highlights -->
+          <div class="hero-tags">
+            <span class="tag-pill">⚡ AI Automation</span>
+            <span class="tag-pill">♿ Accessible Tech</span>
+            <span class="tag-pill">🎙️ Arabic TTS</span>
+            <span class="tag-pill">📱 Flutter & Kotlin</span>
           </div>
         </div>
 
-        <aside class="terminal" aria-label="Hello World preview">
-          <div class="terminal-topbar" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
+        <!-- Interactive Terminal Widget -->
+        <aside class="terminal" aria-label="Interactive CLI Terminal for Makhlwf">
+          <div class="terminal-topbar">
+            <div class="terminal-dots" aria-hidden="true">
+              <span class="dot-red"></span>
+              <span class="dot-yellow"></span>
+              <span class="dot-green"></span>
+            </div>
+            <div class="terminal-title">makhlwf@terminal ~ (interactive)</div>
           </div>
-          <pre><code><span class="muted">$ node index.js</span>
-<span>Server running at http://localhost:3000</span>
-<span class="muted">&gt; render()</span>
-<span class="accent" id="consoleGreeting">Hello, World.</span><span class="cursor">_</span></code></pre>
+          
+          <div class="terminal-screen" id="terminalScreen" tabindex="0" role="region" aria-label="Terminal output screen">
+            <pre><code><span class="muted">// Welcome! Type or click a quick command below:</span>
+<span class="muted">$</span> <span class="term-command">makhlwf --profile</span>
+<span class="accent">Name:</span>       Makhlwf
+<span class="accent">Origin:</span>     Libya 🇱🇾
+<span class="accent">Expertise:</span>  IT, Computer Science, AI, Python
+<span class="accent">Focus:</span>      AI Integration & Open Source Accessibility
+<span class="accent">Passions:</span>   Arabic TTS Solutions, Flutter & Kotlin
+<span class="accent">Featured:</span>   exPlayer (Accessible YouTube Downloader Pro)
+
+<span class="muted">$</span> <span class="accent" id="consoleDynamicOutput">Ready for next command...</span><span class="cursor" aria-hidden="true">_</span></code></pre>
+          </div>
+
+          <!-- Quick interactive command buttons -->
+          <div class="terminal-controls" aria-label="Terminal quick commands">
+            <span class="control-label">Quick Run:</span>
+            <button type="button" class="term-btn" data-cmd="about">--about</button>
+            <button type="button" class="term-btn" data-cmd="skills">--skills</button>
+            <button type="button" class="term-btn" data-cmd="projects">--projects</button>
+            <button type="button" class="term-btn" data-cmd="ai">--ai-help</button>
+            <button type="button" class="term-btn" data-cmd="arabic">--arabic-tts</button>
+            <button type="button" class="term-btn" data-cmd="clear">--clear</button>
+          </div>
+
           <div class="terminal-status">
-            <span>Express</span>
-            <span>Responsive</span>
-            <span>Ready</span>
+            <span class="status-pill status-ready">● Status: Active</span>
+            <span>Python</span>
+            <span>AI</span>
+            <span>a11y</span>
           </div>
         </aside>
       </section>
 
-      <section class="starter" id="starter" aria-labelledby="starterTitle">
+      <!-- Key Focus Strip -->
+      <section class="highlights-strip" aria-label="Key Competencies">
+        <div class="strip-container">
+          <div class="strip-item">
+            <div class="strip-icon" aria-hidden="true">🤖</div>
+            <div class="strip-text">
+              <h3>AI Integration</h3>
+              <p>Embedding intelligent LLMs & AI pipelines into business systems to maximize workflow speed.</p>
+            </div>
+          </div>
+          <div class="strip-item">
+            <div class="strip-icon" aria-hidden="true">♿</div>
+            <div class="strip-text">
+              <h3>Inclusive & a11y Tech</h3>
+              <p>Designing and auditing software for full assistive technology and screen reader compatibility.</p>
+            </div>
+          </div>
+          <div class="strip-item">
+            <div class="strip-icon" aria-hidden="true">🎙️</div>
+            <div class="strip-text">
+              <h3>Arabic Voice & L10n</h3>
+              <p>Engineering natural Arabic Text-To-Speech systems and championing Arabic open-source localization.</p>
+            </div>
+          </div>
+          <div class="strip-item">
+            <div class="strip-icon" aria-hidden="true">📱</div>
+            <div class="strip-text">
+              <h3>Modern App Dev</h3>
+              <p>Crafting modern mobile and cross-platform experiences using Python, Flutter, and Kotlin.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services & How I Help Companies Section -->
+      <section class="services-section" id="services" aria-labelledby="servicesTitle">
         <div class="section-heading">
-          <p class="eyebrow">Starter kit</p>
-          <h2 id="starterTitle">Simple enough to edit. Solid enough to keep.</h2>
+          <p class="eyebrow">What I Do</p>
+          <h2 id="servicesTitle">Helping Teams Integrate AI & Build Accessible Tech</h2>
+          <p class="section-desc">
+            Whether your organization wants to supercharge operational efficiency with custom AI integrations or make digital tools accessible to everyone, I provide tailored technical solutions.
+          </p>
         </div>
 
-        <div class="feature-grid">
-          <article class="feature">
-            <span class="feature-number">01</span>
-            <h3>Express server</h3>
-            <p>The app serves static files from <code>public/</code> and exposes a small health check.</p>
+        <div class="services-grid">
+          <!-- Service Card 1 -->
+          <article class="service-card card-teal">
+            <div class="card-header-icon">
+              <span class="service-number">01</span>
+              <div class="service-icon-box" aria-hidden="true">⚡</div>
+            </div>
+            <h3>AI Integration & Workflow Optimization</h3>
+            <p>
+              I help companies seamlessly integrate AI technologies and LLMs into their existing business processes, saving time and dramatically improving output quality.
+            </p>
+            <ul class="service-bullets">
+              <li>Automating repetitive manual tasks with tailored AI pipelines</li>
+              <li>Connecting LLM APIs (OpenAI, Gemini, local models) to existing databases</li>
+              <li>Optimizing internal workflows to boost team productivity and accuracy</li>
+              <li>Building intelligent data extraction and decision-support tools</li>
+            </ul>
+            <div class="card-footer-tag">Efficiency & Quality First</div>
           </article>
-          <article class="feature">
-            <span class="feature-number">02</span>
-            <h3>Polished front end</h3>
-            <p>The page includes responsive layout, focused content, and a lightweight animated canvas.</p>
+
+          <!-- Service Card 2 -->
+          <article class="service-card card-coral">
+            <div class="card-header-icon">
+              <span class="service-number">02</span>
+              <div class="service-icon-box" aria-hidden="true">♿</div>
+            </div>
+            <h3>Digital Accessibility Engineering (a11y)</h3>
+            <p>
+              Technology must be usable by all. I engineer and audit software to meet WCAG standards and ensure frictionless experience for assistive technology users.
+            </p>
+            <ul class="service-bullets">
+              <li>Screen reader compatibility (NVDA, JAWS, VoiceOver, TalkBack)</li>
+              <li>Comprehensive keyboard-only navigation workflows & focus management</li>
+              <li>Accessibility auditing & remediation for desktop, web, and mobile</li>
+              <li>Inclusive UI design patterns built from the ground up</li>
+            </ul>
+            <div class="card-footer-tag">Universal Usability</div>
           </article>
-          <article class="feature" id="stack">
-            <span class="feature-number">03</span>
-            <h3>Easy next steps</h3>
-            <p>Edit the HTML, CSS, and JavaScript files directly as your site grows.</p>
+
+          <!-- Service Card 3 -->
+          <article class="service-card card-amber">
+            <div class="card-header-icon">
+              <span class="service-number">03</span>
+              <div class="service-icon-box" aria-hidden="true">🌍</div>
+            </div>
+            <h3>Arabic TTS & Open Source Localization</h3>
+            <p>
+              Developing high-quality Arabic voice synthesis tools and contributing to global open-source projects with native Arabic localization and RTL adaptations.
+            </p>
+            <ul class="service-bullets">
+              <li>Neural Arabic Text-To-Speech (TTS) research & voice synthesis</li>
+              <li>Right-to-Left (RTL) layout adaptations and UX optimization</li>
+              <li>Open source localization (l10n / i18n) and Arabic translations</li>
+              <li>Community open-source contributions to enhance public software</li>
+            </ul>
+            <div class="card-footer-tag">Arabic Tech & Community</div>
           </article>
+        </div>
+      </section>
+
+      <!-- Featured Projects Section -->
+      <section class="projects-section" id="projects" aria-labelledby="projectsTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Portfolio & Code</p>
+          <h2 id="projectsTitle">Featured Projects & Innovations</h2>
+          <p class="section-desc">
+            A showcase of software built with deep attention to accessibility, performance, and real-world utility.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Featured Project: exPlayer -->
+          <article class="project-card project-spotlight">
+            <div class="spotlight-badge">⭐ Featured Open Source Project</div>
+            <div class="project-body">
+              <div class="project-header">
+                <div>
+                  <h3 class="project-title">exPlayer — Accessible YouTube Downloader Pro</h3>
+                  <p class="project-subtitle">A high-performance, accessible desktop media downloader & player</p>
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/makhlwf/accessible_youtube_downloader_pro" target="_blank" rel="noopener noreferrer" class="button button-primary button-sm" aria-label="View exPlayer on GitHub (opens in new tab)">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor">
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    <span>View Repository</span>
+                  </a>
+                </div>
+              </div>
+
+              <p class="project-desc">
+                Developed specifically to remove accessibility barriers for users of assistive technology while providing robust power features. <strong>exPlayer</strong> enables seamless searching, downloading, and playback of YouTube media with full keyboard accessibility, clear screen-reader announcements, and rich customization options.
+              </p>
+
+              <div class="project-feature-list">
+                <div class="p-feat">✓ 100% Screen Reader Optimized</div>
+                <div class="p-feat">✓ Stream & High-Quality Audio/Video Downloads</div>
+                <div class="p-feat">✓ Intuitive Keyboard-Only Shortcuts</div>
+                <div class="p-feat">✓ Multi-Format Conversion & Playback</div>
+              </div>
+
+              <div class="tech-tags">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Accessibility (a11y)</span>
+                <span class="tech-tag">PyQt / GUI</span>
+                <span class="tech-tag">FFmpeg</span>
+                <span class="tech-tag">Open Source</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Arabic TTS Solution -->
+          <article class="project-card">
+            <div class="project-body">
+              <div class="project-header">
+                <div>
+                  <span class="card-status-badge badge-active">🔬 Active Research</span>
+                  <h3 class="project-title">Arabic Text-To-Speech (TTS) Engine</h3>
+                </div>
+              </div>
+              <p class="project-desc">
+                Pioneering high-quality, natural Arabic speech synthesis models. Focused on accurate diacritization (Tashkeel) handling, natural phonetics, and low-latency rendering for assistive tech and voice assistants.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Speech AI</span>
+                <span class="tech-tag">Arabic NLP</span>
+                <span class="tech-tag">Audio DSP</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Mobile Apps (Flutter & Kotlin) -->
+          <article class="project-card">
+            <div class="project-body">
+              <div class="project-header">
+                <div>
+                  <span class="card-status-badge badge-learning">📱 Development</span>
+                  <h3 class="project-title">Cross-Platform Apps with Flutter & Kotlin</h3>
+                </div>
+              </div>
+              <p class="project-desc">
+                Building modern, responsive mobile and desktop client applications with Flutter (Dart) and native Kotlin. Prioritizing fluid UI, accessibility labels, and seamless multi-lingual RTL support.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Dart</span>
+                <span class="tech-tag">Kotlin</span>
+                <span class="tech-tag">Android</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Open Source Accessibility & L10n -->
+          <article class="project-card">
+            <div class="project-body">
+              <div class="project-header">
+                <div>
+                  <span class="card-status-badge badge-contrib">🌐 Open Source</span>
+                  <h3 class="project-title">Open Source a11y & Arabic Localization</h3>
+                </div>
+              </div>
+              <p class="project-desc">
+                Active contributions to community projects across GitHub: auditing ARIA structures, resolving keyboard focus traps, creating Arabic translations, and ensuring Right-to-Left interfaces render cleanly.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Open Source</span>
+                <span class="tech-tag">a11y</span>
+                <span class="tech-tag">Arabic l10n</span>
+                <span class="tech-tag">RTL Design</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Interactive Arabic Speech / Tech Feature Box -->
+      <section class="arabic-showcase-section" id="arabic-tech" aria-labelledby="arabicTechTitle">
+        <div class="arabic-box">
+          <div class="arabic-copy">
+            <p class="eyebrow arabic-eyebrow">صوت عربي وتوطين رقمي</p>
+            <h2 id="arabicTechTitle">Passionate About Arabic Voice & Accessibility</h2>
+            <p class="arabic-desc">
+              Arabic is spoken by over 400 million people, yet quality speech synthesis and accessible software in Arabic remain underserved. I am dedicated to bridging this gap by engineering natural TTS solutions and enhancing open-source tools with native Arabic support.
+            </p>
+            <blockquote class="arabic-quote" lang="ar" dir="rtl">
+              "التقنية الحقيقية هي التي تخدم الجميع وتزيل الحواجز بلغة يفهمها الجميع."
+            </blockquote>
+          </div>
+
+          <div class="arabic-demo-card">
+            <div class="demo-header">
+              <span class="demo-title">🎙️ Arabic TTS Audio Preview</span>
+              <span class="demo-badge">Web Speech Test</span>
+            </div>
+            <p class="demo-instructions">Select a phrase and press <strong>Speak</strong> to test real-time Arabic text-to-speech synthesis in your browser:</p>
+            
+            <div class="arabic-phrase-selector">
+              <label for="arabicPhrases" class="sr-only">Choose Arabic sample phrase</label>
+              <select id="arabicPhrases" class="phrase-select">
+                <option value="مرحباً بكم في موقع مخلوف، مهندس برمجيات ومختص في تكامل الذكاء الاصطناعي من ليبيا.">1. تقديم مخلوف (Introduction)</option>
+                <option value="الذكاء الاصطناعي وإمكانية الوصول للجميع، نحو تجربة رقمية شاملة.">2. الذكاء الاصطناعي والوصول الشامل (AI & a11y)</option>
+                <option value="تطوير حلول نطق صوتي عربي عالي الجودة لدعم المستخدمين والتقنيات المساعدة.">3. حلول النطق العربي (Arabic TTS Solutions)</option>
+              </select>
+            </div>
+
+            <div class="phrase-display" id="phraseDisplay" lang="ar" dir="rtl">
+              مرحباً بكم في موقع مخلوف، مهندس برمجيات ومختص في تكامل الذكاء الاصطناعي من ليبيا.
+            </div>
+
+            <div class="tts-actions">
+              <button type="button" class="button button-primary" id="btnSpeakArabic">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+                <span>Speak Phrase</span>
+              </button>
+              <button type="button" class="button button-secondary" id="btnStopArabic">
+                <span>Stop</span>
+              </button>
+            </div>
+            <div id="ttsStatusMessage" class="tts-status" role="status" aria-live="polite">Ready to play voice sample</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills & Tech Stack Section -->
+      <section class="skills-section" id="skills" aria-labelledby="skillsTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Stack & Capabilities</p>
+          <h2 id="skillsTitle">Technical Skills & Knowledge</h2>
+          <p class="section-desc">
+            A comprehensive foundation in computer science, software engineering, and modern intelligence systems.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Category 1: Languages & Core -->
+          <div class="skill-group-card">
+            <div class="group-header">
+              <span class="group-icon" aria-hidden="true">💻</span>
+              <h3>Programming Languages</h3>
+            </div>
+            <div class="skill-chips">
+              <span class="skill-chip active-chip"><strong>Python</strong> (Core / Advanced)</span>
+              <span class="skill-chip active-chip"><strong>Kotlin</strong> (Learning & Passion)</span>
+              <span class="skill-chip active-chip"><strong>Dart / Flutter</strong> (Active)</span>
+              <span class="skill-chip">JavaScript (ES6+)</span>
+              <span class="skill-chip">Node.js</span>
+              <span class="skill-chip">HTML5 & CSS3</span>
+              <span class="skill-chip">Bash / Shell</span>
+            </div>
+          </div>
+
+          <!-- Category 2: AI & Systems Integration -->
+          <div class="skill-group-card">
+            <div class="group-header">
+              <span class="group-icon" aria-hidden="true">🤖</span>
+              <h3>AI & Intelligent Systems</h3>
+            </div>
+            <div class="skill-chips">
+              <span class="skill-chip highlight-chip">AI Workflow Integration</span>
+              <span class="skill-chip highlight-chip">LLM API Orchestration</span>
+              <span class="skill-chip highlight-chip">Arabic Text-To-Speech (TTS)</span>
+              <span class="skill-chip">Prompt Architecture</span>
+              <span class="skill-chip">Automation Pipelines</span>
+              <span class="skill-chip">Audio & Media Processing</span>
+            </div>
+          </div>
+
+          <!-- Category 3: Domains & Specializations -->
+          <div class="skill-group-card">
+            <div class="group-header">
+              <span class="group-icon" aria-hidden="true">♿</span>
+              <h3>Domains & Specializations</h3>
+            </div>
+            <div class="skill-chips">
+              <span class="skill-chip highlight-chip">Digital Accessibility (WCAG / a11y)</span>
+              <span class="skill-chip highlight-chip">Screen Reader Optimization</span>
+              <span class="skill-chip highlight-chip">Arabic Localization (l10n & RTL)</span>
+              <span class="skill-chip">Open Source Development</span>
+              <span class="skill-chip">Computer Science Fundamentals</span>
+              <span class="skill-chip">IT Systems & Infrastructure</span>
+            </div>
+          </div>
+
+          <!-- Category 4: Tools & Platforms -->
+          <div class="skill-group-card">
+            <div class="group-header">
+              <span class="group-icon" aria-hidden="true">🛠️</span>
+              <h3>Tools & Ecosystem</h3>
+            </div>
+            <div class="skill-chips">
+              <span class="skill-chip">Git & GitHub</span>
+              <span class="skill-chip">Linux & Windows Environments</span>
+              <span class="skill-chip">REST APIs</span>
+              <span class="skill-chip">PyQt / GUI Toolkits</span>
+              <span class="skill-chip">FFmpeg Media Tooling</span>
+              <span class="skill-chip">VS Code & Android Studio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Me Section -->
+      <section class="about-section" id="about" aria-labelledby="aboutTitle">
+        <div class="about-card">
+          <div class="about-content">
+            <p class="eyebrow">About Makhlwf</p>
+            <h2 id="aboutTitle">Crafting Technology with Purpose & Inclusivity</h2>
+            
+            <div class="about-text">
+              <p>
+                I am a software developer and IT specialist from <strong>Libya 🇱🇾</strong> with a solid academic and practical grounding in Computer Science, Artificial Intelligence, and modern software engineering.
+              </p>
+              <p>
+                My professional mission focuses on two vital frontiers:
+              </p>
+              <ol class="about-points">
+                <li>
+                  <strong>Empowering Companies with AI:</strong> Helping businesses eliminate inefficiencies by integrating customized AI workflows and intelligent automation into their day-to-day operations.
+                </li>
+                <li>
+                  <strong>Making Software Universally Accessible:</strong> Building tools like <a href="https://github.com/makhlwf/accessible_youtube_downloader_pro" target="_blank" rel="noopener noreferrer" class="inline-link">exPlayer</a>, researching high-fidelity Arabic Text-To-Speech, and actively contributing accessibility fixes and Arabic localization to open-source software.
+                </li>
+              </ol>
+              <p>
+                I am currently sharpening my skills in <strong>Kotlin</strong> and <strong>Flutter</strong> to create accessible mobile experiences for global and Arabic-speaking users.
+              </p>
+            </div>
+
+            <div class="about-meta">
+              <div class="meta-item">
+                <span class="meta-label">Location:</span>
+                <span class="meta-value">Libya 🇱🇾</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Core Language:</span>
+                <span class="meta-value">Python, Kotlin, Flutter</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Languages Spoken:</span>
+                <span class="meta-value">Arabic (Native), English</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Availability:</span>
+                <span class="meta-value status-available">● Open for AI consulting & projects</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact & Call to Action Section -->
+      <section class="contact-section" id="contact" aria-labelledby="contactTitle">
+        <div class="contact-card">
+          <div class="contact-header">
+            <p class="eyebrow">Get in Touch</p>
+            <h2 id="contactTitle">Let's Collaborate or Integrate AI Together</h2>
+            <p class="contact-desc">
+              Have a company workflow you want to accelerate with AI? Need accessibility consulting or want to collaborate on open-source Arabic technology? I'd love to connect.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <!-- GitHub Box -->
+            <a href="https://github.com/makhlwf" target="_blank" rel="noopener noreferrer" class="contact-link-card">
+              <div class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+              </div>
+              <div class="contact-info">
+                <h3>GitHub Profile</h3>
+                <p>github.com/makhlwf</p>
+                <span class="card-action-text">Explore code & repos →</span>
+              </div>
+            </a>
+
+            <!-- Project Repo Box -->
+            <a href="https://github.com/makhlwf/accessible_youtube_downloader_pro" target="_blank" rel="noopener noreferrer" class="contact-link-card">
+              <div class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <div class="contact-info">
+                <h3>exPlayer Project</h3>
+                <p>Accessible YouTube Downloader Pro</p>
+                <span class="card-action-text">Check open-source repo →</span>
+              </div>
+            </a>
+
+            <!-- Direct Connect Box with Copy -->
+            <div class="contact-link-card copy-contact-card">
+              <div class="contact-icon" aria-hidden="true">✉️</div>
+              <div class="contact-info">
+                <h3>Direct Message / Inquiry</h3>
+                <p>Reach out via GitHub or email</p>
+                <button type="button" class="button button-secondary button-sm" id="btnCopyEmail">
+                  <span id="copyEmailText">Copy Contact Details</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <span>Built with Node.js and Express.</span>
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="brand-mark-sm" aria-hidden="true">MW</span>
+          <div>
+            <strong>Makhlwf</strong> — Software Developer & AI Specialist
+            <div class="footer-sub">Crafted with passion from Libya 🇱🇾 • Powered by Node.js & Express</div>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <a href="#services">Services</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="https://github.com/makhlwf" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="#main-content" class="back-to-top" aria-label="Back to top of page">↑ Top</a>
+        </div>
+      </div>
     </footer>
   </body>
 </html>
